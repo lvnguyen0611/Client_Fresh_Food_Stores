@@ -1,5 +1,11 @@
-# Getting Started with Create React App
+  - 👋 Hi, I’m @lvnguyen0611
+  - 👋 Client_Fresh_Food_Stores
+  - 👀 React + Redux
+  - 🌱 Luận văn tốt nghiệp CNTT K43
+  - 🌱 Đại học Cần Thơ
 
+
+# Getting Started with Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
