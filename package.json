@@ -3,12 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.4",
+    "mdbreact": "^5.1.0",
+    "rasa-webchat": "^1.0.1",
+    "rasa-webchat-josh": "0.0.9",
+    "rc-slider": "^9.7.2",
     "react": "^17.0.2",
+    "react-alert": "^7.0.3",
+    "react-alert-template-basic": "^1.0.2",
+    "react-bootstrap": "^1.6.3",
+    "react-chat-widget": "^3.1.0",
     "react-dom": "^17.0.2",
+    "react-event-observer": "^0.5.11",
+    "react-helmet": "^6.1.0",
+    "react-js-pagination": "^3.0.3",
+    "react-paypal-checkout": "^1.0.9",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -34,5 +54,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://127.0.0.1:4000"
 }

@@ -1,0 +1,159 @@
+import React, { Fragment, useEffect, useState } from "react";
+import { MDBDataTableV5 } from "mdbreact";
+import MetaData from "../layout/MetaData";
+//import Loader from "../layout/Loader";
+import { useAlert } from "react-alert";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductReviews, clearErrors , deleteReview} from "../../actions/productActions";
+import Sidebar from "./Sidebar";
+import { DELETE_REVIEWS_RESET } from "../../constants/productConstants"
+
+const ProductReviews = () => {
+    const [productId, setProductId] = useState("");
+     const alert = useAlert();
+     const dispatch = useDispatch();
+     const { error, reviews } = useSelector((state) => state.productReviews);
+     const { isDeleted } = useSelector((state) => state.review);
+
+
+     useEffect(() => {
+          if (error) {
+               alert.error(error);
+               dispatch(clearErrors());
+          }
+          if (productId !== "") {
+               dispatch(getProductReviews(productId));
+          }
+          if (isDeleted) {
+               alert.success("Đã xóa đánh giá");
+               dispatch({ type: DELETE_REVIEWS_RESET });
+          }
+     }, [dispatch, alert, error, productId, isDeleted]);
+
+     const deleteReviewHandler = (id) => {
+          dispatch(deleteReview(id, productId));
+     }
+
+     const submitHandler = (e) => {
+         e.preventDefault();
+         dispatch(getProductReviews(productId))
+     }
+
+     const setReviews = () => {
+          const data = {
+               columns: [
+                    {
+                         label: "Reviews ID",
+                         field: "id",
+                         sort: "asc",
+                    },
+                    {
+                         label: "Đánh giá",
+                         field: "rating",
+                         sort: "asc",
+                    },
+                    {
+                         label: "Bình luận",
+                         field: "comment",
+                         sort: "asc",
+                    },
+                    {
+                         label: "Người đánh giá",
+                         field: "user",
+                         sort: "asc",
+                    },
+                    {
+                         label: "Thao tác",
+                         field: "action",
+                    },
+               ],
+               rows: [],
+          };
+          reviews.forEach((review) => {
+               data.rows.push({
+                    id: review._id,
+                    rating: review.rating,
+                    comment: review.comment,
+                    user: review.name,
+                    action: (
+                         <Fragment>
+                              <button
+                                   className="btn btn-danger py-1 px-2 ml-2"
+                                   onClick={() => deleteReviewHandler(review._id)}
+                              >
+                                   <i className="fa fa-trash"></i>
+                              </button>
+                         </Fragment>
+                    ),
+               });
+          });
+          return data;
+     };
+     return (
+          <Fragment>
+               <MetaData title="Admin - Quản lí đánh giá" />
+               <div className="row">
+                    <div className="col-12 col-md-2">
+                         <Sidebar />
+                    </div>
+                    <div className="col-12 col-md-10">
+                         <Fragment>
+                              <h2 className="mt-4">
+                                   <i className="fa fa-users"></i> Quản lí đánh giá
+                              </h2>
+                              <Fragment>
+                                   <div className="container container-fluid">
+                                        <div className="row justify-content-center mt-5">
+                                             <div className="col-5">
+                                                  <form onSubmit={submitHandler}>
+                                                       <div className="form-group">
+                                                            <label htmlFor="productId_field">
+                                                                 ID Sản phẩm
+                                                            </label>
+                                                            <input
+                                                                 type="text"
+                                                                 id="email_field"
+                                                                 class="form-control"
+                                                                 value={productId}
+                                                                 onChange={(e) =>
+                                                                      setProductId(e.target.value)
+                                                                 }
+                                                            />
+                                                       </div>
+
+                                                       <button
+                                                            id="search_button"
+                                                            type="submit"
+                                                            class="btn btn-primary btn-block py-2"
+                                                       >
+                                                            Tìm
+                                                       </button>
+                                                  </form>
+                                             </div>
+                                        </div>
+                                        {reviews && reviews.length > 0 ? (
+                                             <MDBDataTableV5
+                                                  data={setReviews()}
+                                                  className="px-3"
+                                                  striped
+                                                  hover
+                                                  small
+                                                  searchTop
+                                                  searchBottom={false}
+                                                  barReverse
+                                             />
+                                        ) : (
+                                             <p className="mt-5 text-center">
+                                                  Chưa có đánh giá sản phẩm
+                                             </p>
+                                        )}
+                                   </div>
+                              </Fragment>
+                         </Fragment>
+                    </div>
+               </div>
+          </Fragment>
+     );
+};
+
+export default ProductReviews;
